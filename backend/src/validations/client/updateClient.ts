@@ -1,11 +1,10 @@
 import { validate, Joi } from "express-validation";
 
-export const create = validate({
+export const updateClient = validate({
     body: Joi.object({
         nome: Joi.string().required(),
         email: Joi.string().email().required(),
         endereco: Joi.string().required(),
         telefone: Joi.string().min(12).max(15).required(),
-        senha: Joi.string().min(2).max(50).required(),
     }),
 });

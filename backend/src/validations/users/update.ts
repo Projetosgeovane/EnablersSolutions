@@ -1,6 +1,6 @@
 import { validate, Joi } from "express-validation";
 
-export const create = validate({
+export const update = validate({
     body: Joi.object({
         nome: Joi.string().required(),
         email: Joi.string().email().required(),
