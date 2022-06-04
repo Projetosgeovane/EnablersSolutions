@@ -1,7 +1,8 @@
-import expressJWT from 'express-jwt';
+
+import { expressjwt } from 'express-jwt';
 import secret from '../config/secret';
 
-export const Auth = expressJWT.expressjwt({
+export const Auth = expressjwt({
     secret: secret.key,
     algorithms: ["HS256"]
 });
