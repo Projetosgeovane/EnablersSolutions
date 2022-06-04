@@ -8,21 +8,14 @@ import knex from '../database';
 export const ClientController = {
     async createClient(req: Request, res: Response) {
         try {
-            const { cpf, nome, endereco, cidade, cep, complemento, uf, telefone, email } = req.body;
+            const { nome, endereco, telefone, email } = req.body;
             const newClient = await knex('clients').insert({
-                cpf,
                 nome,
                 endereco,
-                cidade,
-                cep,
-                complemento,
-                uf,
                 telefone,
                 email
             });
-            console.log(newClient);
-            console.log('1');
-            
+
             return res.status(201).json(newClient);
         } catch (error) {
             return res.status(500).json(error);
@@ -30,20 +23,19 @@ export const ClientController = {
     },
     async updateClient(req: Request, res: Response) {
         try {
-            const { cpf, nome, endereco, cidade, cep, complemento, uf, email } = req.body;
+            const { nome, endereco, email, telefone } = req.body;
             const { id } = req.params
             const update = await knex('clients').update({
-                cpf,
                 nome,
                 endereco,
-                cidade,
-                cep,
-                complemento,
-                uf,
-                email
+                email,
+                telefone
             })
                 .where({ id });
-            return res.status(201).json(update);
+            if (update == 0) {
+                return res.status(404).json("Usuário não encontrado");
+            }
+            return res.status(201).json("Usuário atualizado");
         } catch (error) {
             return res.status(500).json(error);
         }
@@ -59,11 +51,11 @@ export const ClientController = {
 
     async deleteClient(req: Request, res: Response) {
         try {
-            const{ id } = req.params;
+            const { id } = req.params;
 
-            const clientDeletado = await knex('clients')
-            .where({id})
-            .del();
+            await knex('clients')
+                .where({ id })
+                .del();
 
             return res.sendStatus(204);
         } catch (error) {

@@ -9,40 +9,38 @@ import bcrypt from "bcryptjs";
 export const UsersController = {
     async createUser(req: Request, res: Response) {
         try {
-            const { cpf, nome, endereco, cidade, cep, complemento, uf, email, senha } = req.body;
+            const { nome, endereco, email, telefone, senha } = req.body;
             const newSenha = bcrypt.hashSync(senha, 10);
-            const newUser = await knex('users').insert({
-                cpf,
+            const [newUser] = await knex('users').insert({
                 nome,
                 endereco,
-                cidade,
-                cep,
-                complemento,
-                uf,
                 email,
+                telefone,
                 senha: newSenha
-            });
-            return res.status(201).json(newUser);
+            })
+
+
+            return res.status(201).json({ newUser });
         } catch (error) {
             return res.status(500).json(error);
         }
     },
     async updateUser(req: Request, res: Response) {
         try {
-            const { cpf, nome, endereco, cidade, cep, complemento, uf, email } = req.body;
+            const { nome, endereco, email, telefone } = req.body;
             const { id } = req.params
             const updateUser = await knex('users').update({
-                cpf,
                 nome,
                 endereco,
-                cidade,
-                cep,
-                complemento,
-                uf,
+                telefone,
                 email
             })
                 .where({ id });
-            return res.status(201).json(updateUser);
+            if (updateUser == 0) {
+                return res.status(404).json("Usuário não encontrado");
+            }
+            return res.status(201).json("Usuário atualizado");
+
         } catch (error) {
             return res.status(500).json(error);
         }
@@ -60,7 +58,7 @@ export const UsersController = {
         try {
             const { id } = req.params;
 
-            const deleteUser = await knex('users')
+            await knex('users')
                 .where({ id })
                 .del();
 
