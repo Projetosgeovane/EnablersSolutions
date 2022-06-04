@@ -1,10 +1,16 @@
-import { NextFunction, Request, Response} from "express";
+
+import { NextFunction, Request, Response } from "express";
+import { UnauthorizedError } from "express-jwt";
 import { ValidationError } from "express-validation";
 
-export default function (err: Error, req: Request, res: Response, next: NextFunction) {
-  if (err instanceof ValidationError) {
-    return res.status(err.statusCode).json(err);
+export default function (error: Error, req: Request, res: Response, next: NextFunction) {
+  if (error instanceof ValidationError) {
+    return res.status(error.statusCode).json(error);
   }
 
-  return res.status(500).json(err);
-};
+  if (error instanceof UnauthorizedError) {
+    return res.status(error.status).json(error);
+  }
+
+  return res.status(500).json(error);
+}
