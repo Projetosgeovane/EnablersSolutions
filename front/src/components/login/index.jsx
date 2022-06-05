@@ -4,15 +4,13 @@ import './styles.css';
 
 const LoginPage = () => {
 
-  const { authenticated, user, login } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    console.log('submit', { email, senha });
     login(email, senha);
   }
 
