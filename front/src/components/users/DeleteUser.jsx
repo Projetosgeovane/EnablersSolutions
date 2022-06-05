@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { api } from '../../services/api';
+import { useNavigate } from 'react-router-dom';
 
 const DeleteUser = (props) => {
     const { id } = useParams();
     const [users, setusers] = useState();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:4000/users/${id}`).then(result => {
-            setusers(result.data);
-        })
+        async function userDelete() {
+            const response = await api.get(`/users/${id}`);
+            setusers(response.data);
+        }
+
     }, [id]);
 
-    const handleRemoveUsers = () => {
-        axios.delete(`http://localhost:4000/users/${id}`).then(result => {
-            props.history.push("/");
-        })
+    const handleRemoveUsers = async() => {
+        await api.delete(`/users/${id}`)
+            navigate("/user");
     }
 
     return (
@@ -24,7 +27,7 @@ const DeleteUser = (props) => {
             <h2>Deseja excluir o Usuário <strong>{users?.nome}</strong>?</h2>
             <br />
             <div className="btn-group">
-                <Link to="/" className="btn btn-primary">
+                <Link to="/user" className="btn btn-primary">
                     <i className="fa fa-arrow-left"></i> Cancelar
                 </Link>
                 <button onClick={handleRemoveUsers} className="btn btn-danger">
