@@ -14,15 +14,17 @@ import { login } from "../validations/login/login";
 
 const routes = express.Router();
 
-routes.get('/users', Auth, UsersController.getUsers);
-routes.post('/users', Auth, UsersValidation.create, UsersController.createUser);
-routes.put('/users/:id', Auth, UsersValidation.update, UsersController.updateUser);
-routes.delete('/users/:id', Auth, UsersValidation.destroy, UsersController.deleteUser);
+routes.get('/users', UsersController.getUsers);
+routes.get('/users/:id', UsersController.getUsersById);
+routes.post('/users', UsersValidation.create, UsersController.createUser);
+routes.put('/users/:id', UsersController.updateUser);
+routes.delete('/users/:id', UsersValidation.destroy, UsersController.deleteUser);
 
-routes.get('/clients', Auth, ClientController.getClients);
-routes.post('/clients', Auth, ClientsValidation.createClient, ClientController.createClient);
-routes.put('/clients/:id', Auth, ClientsValidation.updateClient, ClientController.updateClient);
-routes.delete('/clients/:id', Auth, ClientsValidation.destroyClient, ClientController.deleteClient);
+routes.get('/clients',  ClientController.getClients);
+routes.get('/clients/:id', ClientController.getClientsById);
+routes.post('/clients', ClientsValidation.createClient, ClientsValidation.createClient, ClientController.createClient);
+routes.put('/clients/:id', ClientsValidation.updateClient, ClientController.updateClient);
+routes.delete('/clients/:id', ClientsValidation.destroyClient, ClientController.deleteClient);
 
 routes.post('/login', login, authController.login);
 
