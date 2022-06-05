@@ -1,9 +1,9 @@
 
 <h1> ENABLERS SOLUTIONS </h1>
-
+ <br>
 
 <h2>Backend:<h2/>
-
+ 
  
   •	O backend deve ser uma API rest em NodeJS out Typescript.
 
@@ -25,7 +25,14 @@ As rotas devem ser autenticadas de forma que apenas usuários cadastrados tenham
   
   
   <p>Se atentar corretamente a criação das relações das entidades</p><br>
+ 
 <h1>COMANDOS PARA INICIAR A APLICAÇÃO</h1><br>
+  <br>
+ 
+ Documentação da Api com Postman : https://documenter.getpostman.com/view/20767148/Uz5GowKf
+ 
+ 
+ <br>
   
  ### `npm install`
 
