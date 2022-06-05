@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { usuarioService } from "../services";
 import knex from '../database';
 
 
@@ -44,6 +43,17 @@ export const ClientController = {
         try {
             const get = await knex('clients').select();
             return res.status(200).json(get);
+        } catch (error) {
+            return res.status(500).json(error);
+        }
+    },
+    async getClientsById(req: Request, res: Response) {
+        try {
+            const { id } = req.params
+            const getById = await knex('clients')
+            .select()
+            .where({ id });
+            return res.status(200).json(getById);
         } catch (error) {
             return res.status(500).json(error);
         }
