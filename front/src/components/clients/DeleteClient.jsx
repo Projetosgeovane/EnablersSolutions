@@ -14,6 +14,7 @@ const DeleteClient = (props) => {
         async function ClientDelete() {
             const response = await api.get(`/clients/${id}`);
             setClient(response.data);
+            ClientDelete()
         }
 
     }, [id]);
@@ -26,7 +27,7 @@ const DeleteClient = (props) => {
 
     return (
         <div>
-            <h2>Deseja excluir o cliente <strong>{client?.title}</strong>?</h2>
+            <h2>Deseja excluir o cliente <strong>{client?.nome}</strong>?</h2>
             <br />
             <div className="btn-group">
                 <Link to="/" className="btn btn-primary">

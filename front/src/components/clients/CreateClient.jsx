@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../../services/api';
 
 
 
@@ -9,7 +10,7 @@ const CreateClient = (props) => {
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = async data => {
-        await axios.post('http://localhost:4000/clients', data);
+        await api.post('/clients', data);
         navigate('/')
     };
 
