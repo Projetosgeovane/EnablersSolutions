@@ -1,33 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { api } from '../../services/api';
 
 const DeleteClient = (props) => {
     const { id } = useParams();
-    const [post, setPost] = useState();
+    const [client, setClient] = useState();
+    const navigate = useNavigate();
+
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/posts/${id}`).then(result => {
-            setPost(result.data);
-        })
+        async function ClientDelete() {
+            const response = await api.get(`/clients/${id}`);
+            setClient(response.data);
+        }
+
     }, [id]);
 
-    const handleRemovePost = () => {
-        axios.delete(`http://localhost:5000/posts/${id}`).then(result => {
-            props.history.push("/");
-        })
+
+    const handleRemoveClient = async () => {
+        api.delete(`/clients/${id}`)
+        navigate("/");
     }
 
     return (
         <div>
-            <h2>Deseja excluir o post <strong>{post?.title}</strong>?</h2>
+            <h2>Deseja excluir o cliente <strong>{client?.title}</strong>?</h2>
             <br />
             <div className="btn-group">
                 <Link to="/" className="btn btn-primary">
                     <i className="fa fa-arrow-left"></i> Cancelar
                 </Link>
-                <button onClick={handleRemovePost} className="btn btn-danger">
+                <button onClick={handleRemoveClient} className="btn btn-danger">
                     Excluir <i className="fa fa-trash"></i>
                 </button>
             </div>

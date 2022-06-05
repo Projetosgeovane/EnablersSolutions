@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+
 
 const CreateClient = (props) => {
-    const { register, handleSubmit, errors } = useForm();
-    const onSubmit = data => {
-        axios.post('http://localhost:4000/clients', data).then(result => {
-            props.history.push("/");
-        })
+    const navigate = useNavigate();
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const onSubmit = async data => {
+        await axios.post('http://localhost:4000/clients', data);
+        navigate('/')
     };
+
 
     return (
         <div className="card">
@@ -18,26 +22,26 @@ const CreateClient = (props) => {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="form-group">
                             <label>Nome</label>
-                            <input type="text" className="form-control" name="nome" ref={register({ required: true })} />
+                            <input type="text" className="form-control" name="nome" {...register('nome', { required: true })} />
                             <small className="form-text text-danger">{errors.nome && 'Nome inválido'}</small>
                         </div>
                         <div className="form-group">
                             <label>Endereço</label>
-                            <input type="text" className="form-control" name="endereco" ref={register({ required: true })} />
+                            <input type="text" className="form-control" name="endereco" {...register('endereco', { required: true })} />
                             <small className="form-text text-danger">{errors.endereco && 'Endereço inválido'}</small>
                         </div>
                         <div className="form-group">
                             <label>Telefone</label>
-                            <input type="text" className="form-control" name="telefone" ref={register({ required: true })} />
+                            <input type="text" className="form-control" name="telefone" {...register('telefone', { required: true })} />
                             <small className="form-text text-danger">{errors.telefone && 'Telefone inválido'}</small>
                         </div>
                         <div className="form-group">
                             <label>Email</label>
-                            <input type="text" className="form-control" name="email" ref={register({ required: true })} />
+                            <input type="text" className="form-control" name="email" {...register('email', { required: true })} />
                             <small className="form-text text-danger">{errors.email && 'Email inválido'}</small>
                         </div>
-                        
-                       
+
+
                         <button type="submit" className="btn btn-primary">Salvar</button>
                     </form>
                 </div>

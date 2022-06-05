@@ -1,0 +1,27 @@
+#button-nav-client {
+    background-color: #175291;
+    width: 15%;
+    color:aliceblue;
+    padding: 8px 10px;
+    text-align: center;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    
+}
+
+#button-nav-client:hover{
+    background-color: #103964;
+    color:rgb(221, 229, 236);
+    transition: 1s;
+}
+
+.header {
+    display: flex;
+    justify-content:space-evenly;
+    flex-direction: row-reverse;
+
+}
+
+#titulo {
+    color: #1c4069;
+}
