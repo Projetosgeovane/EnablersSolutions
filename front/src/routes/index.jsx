@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { BrowserRouter, Route, useHistory } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import CreateUser from '../components/users/CreateUser';
 import UserList from '../components/users/UserList';
@@ -13,13 +13,17 @@ import EditClient from '../components/clients/EditClient';
 import Nav from '../components/nav';
 import Login from '../components/login';
 import { AuthContext, AuthProvider } from '../contexts/auth';
+import { Navigate } from 'react-router-dom';
+
+
+
 
 
 
 
 const AppRoutes = () => {
-    const Private = ({ children }) => {
-        const history = useHistory();
+    const PrivateRoute = ({ children }) => {
+
         const { authenticated, loading } = useContext(AuthContext);
 
         if (loading) {
@@ -27,34 +31,38 @@ const AppRoutes = () => {
         }
 
         if (!authenticated) {
-            return history.push('/login');
+            return <Navigate to='/login'/>
         }
 
         return children
     }
 
     return (
-        <BrowserRouter>
-            <Nav />
-            <div className="container">
-                <br />
-                <AuthProvider>
+        <Router>
+            <AuthProvider>
+                <Nav />
+                <div className="container">
+                    <br />
+                    <Routes>
 
-                    <Route path="/user" exact component={UserList}></Route>
-                    <Route path="/createuser" exact component={CreateUser}></Route>
-                    <Route path="/delete/:id/user" exact component={DeleteUser}></Route>
-                    <Route path="/edit/:id/user" exact component={EditUser}></Route>
-                    <Route path="/login" exact component={Login}></Route>
 
-                    <Route path="/" exact component={ClientList}></Route>
-                    <Route path="/createclient" exact component={CreateClient}></Route>
-                    <Route path="/delete/:id/client" exact component={DeleteClient}></Route>
-                    <Route path="/edit/:id/client" exact component={EditClient}></Route>
+                        <Route path="/user" element={<PrivateRoute><UserList/></PrivateRoute>}></Route>
+                        <Route path="/createuser" element={<PrivateRoute><CreateUser/></PrivateRoute>}></Route>
+                        <Route path="/delete/:id/user" element={<PrivateRoute><DeleteUser/></PrivateRoute>}></Route>
+                        <Route path="/edit/:id/user" element={<PrivateRoute><EditUser/></PrivateRoute>}></Route>
+                        <Route path="/login" element={<Login/>}></Route>
 
-                </AuthProvider>
+                        <Route path="/" element={<PrivateRoute><ClientList /></PrivateRoute>}></Route>
+                        <Route path="/createclient" element={<PrivateRoute><CreateClient/></PrivateRoute>} />
+                        <Route path="/delete/:id/client" element={<PrivateRoute><DeleteClient/></PrivateRoute>}></Route>
+                        <Route path="/edit/:id/client" element={<PrivateRoute><EditClient/></PrivateRoute>}></Route>
+                    </Routes>
+                </div>
 
-            </div>
-        </BrowserRouter>
+
+
+            </AuthProvider>
+        </Router>
     );
 }
 
