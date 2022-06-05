@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { usuarioService } from "../services";
 import knex from '../database';
-import bcrypt from "bcryptjs";
+
+
 
 
 
@@ -10,17 +10,15 @@ export const UsersController = {
     async createUser(req: Request, res: Response) {
         try {
             const { nome, endereco, email, telefone, senha } = req.body;
-            const newSenha = bcrypt.hashSync(senha, 10);
             const [newUser] = await knex('users').insert({
                 nome,
                 endereco,
                 email,
                 telefone,
-                senha: newSenha
+                senha
             })
 
-
-            return res.status(201).json({ newUser });
+            return res.status(201).json(newUser)
         } catch (error) {
             return res.status(500).json(error);
         }
@@ -48,7 +46,21 @@ export const UsersController = {
     async getUsers(req: Request, res: Response) {
         try {
             const get = await knex('users').select();
+
             return res.status(200).json(get);
+        } catch (error) {
+            return res.status(500).json(error);
+        }
+    },
+
+    async getUsersById(req: Request, res: Response) {
+        try {
+            const { id } = req.params
+            const getById = await knex('users')
+                .select()
+                .where({ id });
+
+            return res.status(200).json(getById);
         } catch (error) {
             return res.status(500).json(error);
         }
@@ -66,5 +78,5 @@ export const UsersController = {
         } catch (error) {
             return res.status(500).json(error);
         }
-    }
+    },
 }
