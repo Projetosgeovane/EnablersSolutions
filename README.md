@@ -37,12 +37,16 @@ As rotas devem ser autenticadas de forma que apenas usuários cadastrados tenham
  ### `npm install`
 
 Alterar os campos 'user', 'password', 'databse' do arquivo knexfile.js. Conforme o banco de dados mysql de cada pessoa.
-
+ <br> *** Crie o Database no banco de dados com o nome "empresa"***
 ### `npx knex migrate:latest`
 
 Comando para criar as tables do banco de dados
   
-  ### `npx knex seeds:run`
+  ### `npx knex seed:run`
+ Insere os dados nas tables 
+ Users:  { nome: 'Enablers', endereco: 'Rua da Vila', telefone: '11972371061', email: 'enablers@enablers.com.br', senha: '123456789'},
+ br
+ Clients: { nome: 'Mario', endereco: 'Rua da Bosque da Saúde de São Paulo', telefone: '11972371061', email: 'Mario@gmail.com.br'},
 
 Comando para inserir os dados default nas tables do banco de dados
   
@@ -51,14 +55,43 @@ Comando para inserir os dados default nas tables do banco de dados
   
   ### `npm run dev`
   Inciar o servidor com a porta 4000
-
-
-
-
-
-
-  
-  
+ 
+ <br>
+ <br>
+<h2>Rotas da Api Backend:<h2/>
+ 
+-Cadastro de Usuário <br>
+ http://localhost:4000/users/       
+ -Deletar Usuário <br>
+http://localhost:4000/users/1      
+ -Buscar Lista de Usuários <br>
+http://localhost:4000/users
+  <br>
+ -Atualizar Usuário <br>
+http://localhost:4000/users/2
+  <br>
+ -Buscar Usuário por Id <br>
+http://localhost:4000/users/2
+  <br>
+ <br>
+ -Cadastro de Cliente <br>
+http://localhost:4000/clients/
+  <br>
+ -Deletar Cliente <br>
+http://localhost:4000/clients/1
+  <br>
+ -Buscar Lista de Clientes <br>
+http://localhost:4000/clients
+  <br>
+ -Buscar Lista de Clientes por Id <br>
+http://localhost:4000/clients/4
+  <br>
+ -Atualizar Cliente <br>
+http://localhost:4000/clients/3
+  <br>
+ 
+ -Login
+ http://localhost:4000/login
   
 
 
