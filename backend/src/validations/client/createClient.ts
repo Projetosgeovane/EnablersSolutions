@@ -5,6 +5,6 @@ export const createClient = validate({
         nome: Joi.string().required(),
         email: Joi.string().email().required(),
         endereco: Joi.string().required(),
-        telefone: Joi.string().min(12).max(15).required(),
+        telefone: Joi.string().min(9).max(15).required(),
     }),
 });
