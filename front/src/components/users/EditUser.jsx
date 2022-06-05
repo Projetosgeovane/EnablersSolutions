@@ -1,27 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { api } from '../../services/api';
 
 const EditUser = (props) => {
     const id = useParams();
-    const { register, handleSubmit, errors, setValue } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const [user, setUser] = useState();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:4000/users/${id}`).then(result => {
-            setValue("id", result.data.id);
-            setValue("nome", result.data.nome);
-            setValue("endereco", result.data.endereco);
-            setValue("telefone", result.data.telefone);
-            setValue("email", result.data.email);
-        })
+        async function getsClients() {
+            const response = await api.get('/users');
+            setUser(response.data)
+                reset(response.data)
+            
+        }
     }, [id]);
 
-    const onSubmit = data => {
-        axios.put(`http://localhost:4000/users/${id}`, data).then(result => {
-            props.history.push("/");
-        })
+    const onSubmit = async data => {
+        api.put(`/users/${id}`, data)
+            navigate("/");
     };
 
     return (
@@ -31,32 +32,28 @@ const EditUser = (props) => {
                 <div className="card-text">
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="form-group">
-                            <label>ID</label>
-                            <input type="text" readOnly className="form-control" name="id" ref={register({ required: true })} />
-                        </div>
-                        <div className="form-group">
                             <label>Nome</label>
-                            <input type="text" className="form-control" name="nome" ref={register({ required: true })} />
+                            <input type="text" className="form-control" name="nome" {...register('nome', { required: true })} />
                             <small className="form-text text-danger">{errors.nome && 'Nome inválido'}</small>
                         </div>
                         <div className="form-group">
                             <label>Endereço</label>
-                            <input type="text" className="form-control" name="endereco" ref={register({ required: true })} />
+                            <input type="text" className="form-control" name="endereco" {...register('endereco', { required: true })} />
                             <small className="form-text text-danger">{errors.endereco && 'Endereço inválido'}</small>
                         </div>
                         <div className="form-group">
                             <label>Telefone</label>
-                            <input type="text" className="form-control" name="telefone" ref={register({ required: true })} />
+                            <input type="text" className="form-control" name="telefone" {...register('telefone', { required: true })} />
                             <small className="form-text text-danger">{errors.telefone && 'Telefone inválido'}</small>
                         </div>
                         <div className="form-group">
                             <label>Email</label>
-                            <input type="text" className="form-control" name="email" ref={register({ required: true })} />
+                            <input type="text" className="form-control" name="email" {...register('email', { required: true })} />
                             <small className="form-text text-danger">{errors.email && 'Email inválido'}</small>
                         </div>
 
 
-                        <Link to="/" className="btn btn-primary">
+                        <Link to="/user" className="btn btn-primary">
                             <i className="fa fa-arrow-left"></i> Cancelar
                         </Link>
                         &nbsp;
