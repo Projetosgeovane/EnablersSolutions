@@ -1,22 +1,21 @@
 import React, { useState, useEffect, createContext } from "react";
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { api, loginApi } from '../services/api'
 
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const recoveredUser = localStorage.getItem('user');
         
-
+        
         if (recoveredUser) {
-            // setUser(JSON.parse(recoveredUser));
-            setUser(recoveredUser)
+            setUser(JSON.parse(recoveredUser));
         }
 
         setLoading(false);
@@ -29,6 +28,7 @@ export const AuthProvider = ({ children }) => {
 
         const loggerUser = response.data.user;
         const token = response.data.token;
+        console.log(loggerUser);
 
         localStorage.setItem('user', JSON.stringify(loggerUser));
         localStorage.setItem('token', token);
@@ -38,7 +38,8 @@ export const AuthProvider = ({ children }) => {
 
 
         setUser(loggerUser);
-        history.push('/');
+        navigate('/');
+        
     }
 
     const logout = () => {
@@ -47,11 +48,17 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('token');
         api.defaults.headers.Authorization = null;
         setUser(null);
-        history('/login')
+        navigate('/login')
     };
 
     return (
-        <AuthContext.Provider value={{ authenticated: !!user, user, loading, login, logout }}>
+        <AuthContext.Provider value={{
+            authenticated: !!user,
+            user,
+            loading,
+            login,
+            logout
+        }}>
             {children}
         </AuthContext.Provider>
     )
