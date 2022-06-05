@@ -107,5 +107,43 @@ O admin deve ser desenvolvido utilizando React e Ant Design https://ant.design.
    ### `npm install`
   
   ### `npm start`
-  Inciar o servidor com a porta 3000
+  Iniciar o servidor com a porta 3000
+ 
+ 
+ 
+ 
+ <h2>Rotas da Api Backend:<h2/>
+  
+  Para acessar qualquer rota, será necessário estar authenticado por meio da tela de login. Digitando email e senha.
+ 
+-Cadastro de Usuário <br>
+ http://localhost:3000/createuser      
+ -Deletar Usuário <br>
+http://localhost:3000/createuser/id/user      
+ -Buscar Lista de Usuários <br>
+http://localhost:3000/user
+  <br>
+ -Atualizar Usuário <br>
+http://localhost:3000/edit/id/user
+  <br>
+ <br>
+ -Cadastro de Cliente <br>
+http://localhost:3000/createclient
+  <br>
+ -Deletar Cliente <br>
+http://localhost:3000/delete/id/client
+  <br>
+ -Buscar Lista de Clientes <br>
+http://localhost:3000/
+  <br>
+ 
+ -Atualizar Cliente <br>
+http://localhost:3000/clients/3
+  <br>
+ 
+ -Login
+ http://localhost:3000/login
+  
+ 
+ 
   
