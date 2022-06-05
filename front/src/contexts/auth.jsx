@@ -12,8 +12,8 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const recoveredUser = localStorage.getItem('user');
-        
-        
+
+
         if (recoveredUser) {
             setUser(JSON.parse(recoveredUser));
         }
@@ -23,12 +23,11 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (email, senha) => {
         const response = await loginApi(email, senha);
-        console.log('login', response.data);
 
 
         const loggerUser = response.data.user;
         const token = response.data.token;
-        console.log(loggerUser);
+
 
         localStorage.setItem('user', JSON.stringify(loggerUser));
         localStorage.setItem('token', token);
@@ -39,7 +38,7 @@ export const AuthProvider = ({ children }) => {
 
         setUser(loggerUser);
         navigate('/');
-        
+
     }
 
     const logout = () => {
